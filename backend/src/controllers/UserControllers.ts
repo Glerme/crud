@@ -20,6 +20,10 @@ export const createUser = async (
         email,
         name,
       },
+      include: {
+        avatar: true,
+        comments: true,
+      },
     });
 
     return res.status(201).json(user);
@@ -36,6 +40,7 @@ export const getAllUsers = async (
     const users = await prisma.user.findMany({
       include: {
         comments: true,
+        avatar: true,
       },
     });
 
@@ -57,6 +62,7 @@ export const getOneUser = async (
         userId: Number(userId),
       },
       include: {
+        avatar: true,
         comments: true,
       },
     });
@@ -77,13 +83,22 @@ export const updateUser = async (
 ) => {
   try {
     const { userId } = req.params;
-    const { name, email } = req.body;
+    const { name, email, nameAvatar } = req.body;
 
     const user = await prisma.user.update({
       where: { userId: Number(userId) },
       data: {
         name,
         email,
+        avatar: {
+          connect: {
+            name: nameAvatar,
+          },
+        },
+      },
+      include: {
+        avatar: true,
+        comments: true,
       },
     });
 
@@ -102,6 +117,10 @@ export const deleteUser = async (
 
     const user = await prisma.user.delete({
       where: { userId: Number(userId) },
+      include: {
+        avatar: true,
+        comments: true,
+      },
     });
 
     return res.status(200).json(user);

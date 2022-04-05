@@ -17,6 +17,7 @@ export const createGame = async (
       },
       include: {
         comments: true,
+        GameAvatar: true,
       },
     });
 
@@ -34,6 +35,7 @@ export const getAllGames = async (
     const games = await prisma.game.findMany({
       include: {
         comments: true,
+        GameAvatar: true,
       },
     });
 
@@ -54,6 +56,7 @@ export const getOneGame = async (
       where: { gameId: Number(gameId) },
       include: {
         comments: true,
+        GameAvatar: true,
       },
     });
 
@@ -73,7 +76,7 @@ export const updateGame = async (
 ) => {
   try {
     const { gameId } = req.params;
-    const { name, description, comments } = req.body;
+    const { name, description, comments, gameAvatarName } = req.body;
 
     const game = await prisma.game.update({
       where: { gameId: Number(gameId) },
@@ -82,9 +85,15 @@ export const updateGame = async (
         comments,
         description,
         updatedAt: new Date(),
+        GameAvatar: {
+          connect: {
+            name: gameAvatarName,
+          },
+        },
       },
       include: {
         comments: true,
+        GameAvatar: true,
       },
     });
 

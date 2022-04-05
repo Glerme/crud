@@ -54,7 +54,7 @@ router.get("/gameAvatar/:gameAvatarId", async (req, res, next) => {
 });
 
 // User
-router.post("/user", uploadAvatar.single("file"), async (req, res) => {
+router.post("/user", async (req, res) => {
   await createUser(req, res);
 });
 
@@ -66,7 +66,7 @@ router.get("/user/:userId", async (req, res) => {
   await getOneUser(req, res);
 });
 
-router.patch("/user/:userId", uploadAvatar.single("file"), async (req, res) => {
+router.patch("/user/:userId", async (req, res) => {
   await updateUser(req, res);
 });
 
