@@ -1,16 +1,14 @@
+import path from "path";
 import multer from "multer";
 
-import path from "path";
+import { nanoid } from "../utils/nanoid";
 
 const storageImage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "../../uploads/games");
+    cb(null, path.join(__dirname, "../uploads/games"));
   },
   filename: (req, file, cb) => {
-    cb(
-      null,
-      `${Date.now()}-${file.originalname}` + path.extname(file.originalname)
-    );
+    cb(null, nanoid());
   },
 });
 

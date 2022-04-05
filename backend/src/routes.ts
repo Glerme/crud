@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { createAvatar, getAvatar } from "./controllers/AvatarControllers";
 
 import {
   createComment,
@@ -7,6 +8,7 @@ import {
   getOneComment,
   updateComment,
 } from "./controllers/CommentsControllers";
+import { createGameAvatar } from "./controllers/GameAvatar";
 
 import {
   createGame,
@@ -24,69 +26,94 @@ import {
   updateUser,
 } from "./controllers/UserControllers";
 
+import { uploadAvatar } from "./functions/uploadAvatar";
+import { uploadGameAvatar } from "./functions/uploadGameAvatar";
+
 const router = Router();
 
+// Avatar
+router.post("/avatar", uploadAvatar.single("file"), async (req, res) => {
+  await createAvatar(req, res);
+});
+
+router.get("/avatar/:avatarId", async (req, res, next) => {
+  await getAvatar(req, res, next);
+});
+
+// Game Avatar
+router.post(
+  "/gameAvatar",
+  uploadGameAvatar.single("file"),
+  async (req, res) => {
+    await createGameAvatar(req, res);
+  }
+);
+
+router.get("/avatar/:avatarId", async (req, res, next) => {
+  await getAvatar(req, res, next);
+});
+
 // User
-router.post("/user", async (req, res) => {
-  createUser(req, res);
+router.post("/user", uploadAvatar.single("file"), async (req, res) => {
+  await createUser(req, res);
 });
 
 router.get("/user", async (req, res) => {
-  getAllUsers(req, res);
+  await getAllUsers(req, res);
 });
 
 router.get("/user/:userId", async (req, res) => {
-  getOneUser(req, res);
+  await getOneUser(req, res);
 });
 
-router.patch("/user/:userId", async (req, res) => {
-  updateUser(req, res);
+router.patch("/user/:userId", uploadAvatar.single("file"), async (req, res) => {
+  await updateUser(req, res);
 });
 
 router.delete("/user/:userId", async (req, res) => {
-  deleteUser(req, res);
+  await deleteUser(req, res);
 });
 
 //Game
 router.post("/games", async (req, res) => {
-  createGame(req, res);
+  await createGame(req, res);
 });
 
 router.get("/games", async (req, res) => {
-  getAllGames(req, res);
+  await getAllGames(req, res);
 });
 
 router.get("/games/:gameId", async (req, res) => {
-  getOneGame(req, res);
+  await getOneGame(req, res);
 });
 
 router.patch("/games/:gameId", async (req, res) => {
-  updateGame(req, res);
+  await updateGame(req, res);
 });
 
 router.delete("/games/:gameId", async (req, res) => {
-  deleteGame(req, res);
+  await deleteGame(req, res);
 });
 
 //Comments
 router.post("/comments/:gameId/:userId", async (req, res) => {
-  createComment(req, res);
+  await createComment(req, res);
 });
 
 router.get("/comments", async (req, res) => {
-  getAllComments(req, res);
+  await getAllComments(req, res);
 });
 
 router.get("/comments/:commentId", async (req, res) => {
-  getOneComment(req, res);
+  await getOneComment(req, res);
 });
 
 router.patch("/comments/:commentId", async (req, res) => {
-  updateComment(req, res);
+  await updateComment(req, res);
 });
 
 router.delete("/comments/:commentId", async (req, res) => {
-  deleteComment(req, res);
+  await deleteComment(req, res);
 });
 
 export { router };

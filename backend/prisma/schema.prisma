@@ -41,15 +41,19 @@ model User {
 }
 
 model Avatar {
-  avatarId Int    @id @default(autoincrement())
-  name     String @unique
-  url      String
-  User     User[]
+  avatarId  Int      @id @default(autoincrement())
+  name      String   @unique
+  url       String
+  User      User[]
+  mimeType  String
+  createdAt DateTime @default(now())
 }
 
 model GameAvatar {
-  gameAvatarId Int    @id @default(autoincrement())
-  name         String @unique
+  gameAvatarId Int      @id @default(autoincrement())
+  name         String   @unique
   url          String
   Game         Game[]
+  mimeType     String
+  createdAt    DateTime @default(now())
 }
