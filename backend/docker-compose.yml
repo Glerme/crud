@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  postgres-compose:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "123456"
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/gui/postgres/data:/var/lib/postgresql/data 
