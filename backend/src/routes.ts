@@ -8,7 +8,7 @@ import {
   getOneComment,
   updateComment,
 } from "./controllers/CommentsControllers";
-import { createGameAvatar } from "./controllers/GameAvatar";
+import { createGameAvatar, getGameAvatar } from "./controllers/GameAvatar";
 
 import {
   createGame,
@@ -49,8 +49,8 @@ router.post(
   }
 );
 
-router.get("/avatar/:avatarId", async (req, res, next) => {
-  await getAvatar(req, res, next);
+router.get("/gameAvatar/:gameAvatarId", async (req, res, next) => {
+  await getGameAvatar(req, res, next);
 });
 
 // User

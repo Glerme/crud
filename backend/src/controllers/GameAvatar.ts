@@ -31,21 +31,16 @@ export const getGameAvatar = async (
   res: Record<string, any>,
   next: any
 ) => {
-  const { avatarId } = req.params;
+  const { gameAvatarId } = req.params;
 
   const { inline } = req.query;
 
-  console.log(avatarId);
-
-  const avatar = await prisma.avatar.findUnique({
-    where: { name: avatarId },
-    include: {
-      User: true,
-    },
+  const avatar = await prisma.gameAvatar.findUnique({
+    where: { name: gameAvatarId },
   });
 
   if (!avatar) {
-    return res.status(404).json({ error: "Avatar not found" });
+    return res.status(404).json({ error: "Game Avatar not found" });
   }
 
   const readStream = fs.createReadStream(

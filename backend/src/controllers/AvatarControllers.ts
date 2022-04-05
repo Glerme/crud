@@ -35,8 +35,6 @@ export const getAvatar = async (
 
   const { inline } = req.query;
 
-  console.log(avatarId);
-
   const avatar = await prisma.avatar.findUnique({
     where: { name: avatarId },
     include: {
