@@ -7,7 +7,7 @@ export const createUser = async (
   res: Record<string, any>
 ) => {
   try {
-    const { name, email } = req.body;
+    const { name, email, password } = req.body;
 
     const queryUser = await prisma.user.findUnique({ where: { email } });
 
@@ -19,14 +19,24 @@ export const createUser = async (
       data: {
         email,
         name,
+        password,
       },
-      include: {
+      select: {
         avatar: true,
+        avatarId: true,
         comments: true,
+        createdAt: true,
+        email: true,
+        name: true,
+        password: false,
+        updatedAt: true,
+        userId: true,
       },
     });
 
-    return res.status(201).json(user);
+    return res.status(201).json({
+      ...user,
+    });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -38,9 +48,16 @@ export const getAllUsers = async (
 ) => {
   try {
     const users = await prisma.user.findMany({
-      include: {
-        comments: true,
+      select: {
         avatar: true,
+        avatarId: true,
+        comments: true,
+        createdAt: true,
+        email: true,
+        name: true,
+        password: false,
+        updatedAt: true,
+        userId: true,
       },
     });
 
@@ -61,9 +78,16 @@ export const getOneUser = async (
       where: {
         userId: Number(userId),
       },
-      include: {
+      select: {
         avatar: true,
+        avatarId: true,
         comments: true,
+        createdAt: true,
+        email: true,
+        name: true,
+        password: false,
+        updatedAt: true,
+        userId: true,
       },
     });
 
@@ -83,22 +107,30 @@ export const updateUser = async (
 ) => {
   try {
     const { userId } = req.params;
-    const { name, email, nameAvatar } = req.body;
+    const { name, email, nameAvatar, password } = req.body;
 
     const user = await prisma.user.update({
       where: { userId: Number(userId) },
       data: {
         name,
         email,
+        password,
         avatar: {
           connect: {
             name: nameAvatar,
           },
         },
       },
-      include: {
+      select: {
         avatar: true,
+        avatarId: true,
         comments: true,
+        createdAt: true,
+        email: true,
+        name: true,
+        password: false,
+        updatedAt: true,
+        userId: true,
       },
     });
 
@@ -117,9 +149,16 @@ export const deleteUser = async (
 
     const user = await prisma.user.delete({
       where: { userId: Number(userId) },
-      include: {
+      select: {
         avatar: true,
+        avatarId: true,
         comments: true,
+        createdAt: true,
+        email: true,
+        name: true,
+        password: false,
+        updatedAt: true,
+        userId: true,
       },
     });
 

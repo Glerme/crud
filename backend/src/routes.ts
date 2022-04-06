@@ -17,6 +17,7 @@ import {
   getOneGame,
   updateGame,
 } from "./controllers/GameControllers";
+import { signIn } from "./controllers/LoginController";
 
 import {
   createUser,
@@ -30,6 +31,11 @@ import { uploadAvatar } from "./functions/uploadAvatar";
 import { uploadGameAvatar } from "./functions/uploadGameAvatar";
 
 const router = Router();
+
+//Login
+router.post("/login", async (req, res) => {
+  await signIn(req, res);
+});
 
 // Avatar
 router.post("/avatar", uploadAvatar.single("file"), async (req, res) => {

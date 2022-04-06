@@ -33,6 +33,7 @@ model User {
   userId    Int       @id @default(autoincrement())
   name      String
   email     String    @unique
+  password  String
   comments  Comment[]
   avatar    Avatar?   @relation(fields: [avatarId], references: [avatarId])
   avatarId  Int?
